@@ -3,16 +3,16 @@ const middleWares = require("../Middlewares/middleware");
 const userSchemas = require("../Schemas/UserSchemas");
 const userService = require("../Services/UserService");
 const webTokenUtil = require("../Util/JWT");
-/**
- * Gets a list of all users
- */
-router.get("/", async (req, res) => {
-   res.status(200).send({ Message: "List" });
+const _ = require("lodash");
+
+router.get("/", middleWares.checkToken(), async (req, res) => {
+   const userData = webTokenUtil.getPropertiesFromToken(req.headers.authorization, "id");
+   const data = await userService.getUsers(userData.id, req.query);
+  return !_.isEmpty(data)
+     ? res.status(200).send({ data, Message: "Users found" })
+     : res.status(400).send({ Message: "Failed to retrieve users" });
 });
 
-/**
- * Create a new user
- */
 router.post("/", middleWares.validateBodySchema(userSchemas.userCreateSchema), async (req, res) => {
    if (await userService.getUserByEmail(req.body))
       return res.status(409).send({ Message: "Conflict in user email" });

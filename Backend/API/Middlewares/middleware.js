@@ -1,4 +1,22 @@
+const jwt = require("jsonwebtoken");
 
+module.exports.checkToken = () => {
+   return async (req, res, next) => {
+      try {
+         if (req.headers.authorization && req.headers.authorization.split(" ")[0] === "Bearer") {
+            const VerifiedToken = jwt.verify(
+               req.headers.authorization.split(" ")[1],
+               process.env.TOKEN_SECRET
+            );
+            next();
+         } else {
+            res.status(401).send("Access denied no TOKEN found");
+         }
+      } catch (error) {
+         res.status(401).send("Wrong Token");
+      }
+   };
+};
 
 module.exports.validateBodySchema = (schema) => {
    return async (req, res, next) => {

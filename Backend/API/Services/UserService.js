@@ -14,3 +14,8 @@ module.exports.createUser = async (userInfo) => {
 module.exports.login = async (loginInfo, userInfo) => {
     return loginInfo.email === userInfo.email && await encryptionUtil.matchPassword(loginInfo.password, userInfo.password);
 };
+
+
+module.exports.getUsers = async (userId, queryInfo) => {
+   return await userRepository.findUsers(userId, queryInfo);
+};

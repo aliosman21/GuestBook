@@ -30,20 +30,6 @@ module.exports = (sequelize, DataTypes) => {
   Message.init(
      {
         content: DataTypes.TEXT,
-        FromUserId: {
-           type: DataTypes.INTEGER,
-           references: {
-              model: sequelize.User,
-              key: "id",
-           },
-        },
-        ToUserId: {
-           type: DataTypes.INTEGER,
-           references: {
-              model: sequelize.User,
-              key: "id",
-           },
-        },
      },
      {
         sequelize,

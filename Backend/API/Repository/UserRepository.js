@@ -28,3 +28,22 @@ module.exports.createUser = async (userInfo) => {
       return false;
    }
 };
+
+module.exports.findUsers = async (userId, queryInfo) => {
+   try {
+      const result = await db.User.findAndCountAll({
+         offset: Number(queryInfo.offset * queryInfo.limit),
+         limit: Number(queryInfo.limit),
+         where: {
+            id: {
+               [db.Sequelize.Op.ne]: userId,
+            },
+         },
+         attributes: ["id", "name", "avatar"],
+      });
+      return result;
+   } catch (err) {
+      console.error(`Get users with ${JSON.stringify(queryInfo)} failed with `, err);
+      return [];
+   }
+};
