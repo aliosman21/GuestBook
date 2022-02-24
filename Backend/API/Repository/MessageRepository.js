@@ -8,6 +8,13 @@ module.exports.findMessages = async (queryInfo) => {
          where: {
             ToUserId: queryInfo.id,
          },
+         include: [
+            {
+               model: db.User,
+               as: "fromUser",
+               attributes: ["id", "name", "avatar"],
+            },
+         ],
          attributes: ["id", "content"],
       });
       return result;

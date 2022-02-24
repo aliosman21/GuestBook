@@ -12,24 +12,30 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Message.belongsTo(models.User, {
-         as: "FromUserId",
+         as: "fromUser",
          foreignKey: {
-            name: "id",
-            allowNull: false,
+            name: "FromUserId",
          },
       });
       Message.belongsTo(models.User, {
-         as: "ToUserId",
+         as: "toUser",
          foreignKey: {
-            name: "id",
-            allowNull: false,
-         },
+            name: "ToUserId"
+         }
       });
     }
   }
   Message.init(
      {
         content: DataTypes.TEXT,
+        FromUserId: {
+           type: DataTypes.INTEGER,
+           allowNull: false,
+        },
+        ToUserId: {
+           type: DataTypes.INTEGER,
+           allowNull: false,
+        },
      },
      {
         sequelize,
