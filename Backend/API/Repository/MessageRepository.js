@@ -1,12 +1,12 @@
 const db = require("../../db/models/index");
 
-module.exports.findMessages = async (queryInfo) => {
+module.exports.findMessages = async (queryInfo, userId) => {
    try {
       const result = await db.Message.findAndCountAll({
          offset: Number(queryInfo.offset * queryInfo.limit),
          limit: Number(queryInfo.limit),
          where: {
-            ToUserId: queryInfo.id,
+            ToUserId: userId,
          },
          include: [
             {
@@ -29,7 +29,7 @@ module.exports.createMessage = async (fromId, messageInfo) => {
       await db.Message.create({
          content: messageInfo.content,
          FromUserId: fromId,
-         ToUserId: messageInfo.toId,
+         ToUserId: messageInfo.userId,
       });
       return true;
    } catch (err) {
@@ -49,11 +49,9 @@ module.exports.editMessage = async (fromId, messageInfo) => {
       return false;
    }
 };
-module.exports.deleteMessage = async (fromId, messageInfo) => {
+module.exports.deleteMessage = async (fromId, messageId) => {
    try {
-      await db.Message.destroy(
-         { where: { id: messageInfo.messageId, FromUserId: fromId } }
-      );
+      await db.Message.destroy({ where: { id: messageId, FromUserId: fromId } });
       return true;
    } catch (err) {
       console.error("Failed to delete message");

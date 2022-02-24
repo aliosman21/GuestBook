@@ -5,9 +5,6 @@ const userService = require("../Services/UserService");
 const webTokenUtil = require("../Util/JWT");
 const _ = require("lodash");
 
-/**
- * Find all users
- */
 router.get(
    "/",
    middleWares.checkToken(),
