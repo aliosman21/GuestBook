@@ -23,12 +23,24 @@ module.exports = {
           updatedAt: new Date(),
        });
     }
+    const replies = [];
+    for (let i = 0; i < 200; i++) {
+       replies.push({
+          content: faker.lorem.words(8),
+          UserId: Math.floor(Math.random() * 100 + 1),
+          MessageId: Math.floor(Math.random() * 1000 + 1),
+          createdAt: new Date(),
+          updatedAt: new Date(),
+       });
+    }
      await queryInterface.bulkInsert("Users", users, {});
      await queryInterface.bulkInsert("Messages", messages, {});
+     await queryInterface.bulkInsert("Replies", replies, {});
   },
 
   async down (queryInterface, Sequelize) {
     await queryInterface.bulkInsert("Users", null, {});
     await queryInterface.bulkInsert("Messages", null, {});
+    await queryInterface.bulkInsert("Replies", null, {});
   }
 };

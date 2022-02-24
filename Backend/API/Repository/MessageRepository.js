@@ -58,3 +58,27 @@ module.exports.deleteMessage = async (fromId, messageId) => {
       return false;
    }
 };
+
+
+module.exports.findReplies = async (queryInfo, messageId) => {
+   try {
+      const result = await db.Reply.findAndCountAll({
+         offset: Number(queryInfo.offset * queryInfo.limit),
+         limit: Number(queryInfo.limit),
+         where: {
+            MessageId: messageId,
+         },
+         include: [
+            {
+               model: db.User,
+               attributes: ["id", "name", "avatar"],
+            },
+         ],
+         attributes: ["id", "content"],
+      });
+      return result;
+   } catch (err) {
+      console.error(`Get messages with ${JSON.stringify(queryInfo)} failed with `, err);
+      return [];
+   }
+};

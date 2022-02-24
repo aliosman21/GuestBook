@@ -15,3 +15,7 @@ module.exports.editMessage = async (fromId, messageInfo) => {
 module.exports.removeMessage = async (fromId, messageId) => {
    return await messageRepository.deleteMessage(fromId, messageId);
 };
+
+module.exports.getReplies = async (queryInfo, messageId) => {
+   return await messageRepository.findReplies(queryInfo, messageId);
+};

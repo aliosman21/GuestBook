@@ -2,6 +2,7 @@ const router = require("express").Router();
 const middleWares = require("../Middlewares/middleware");
 const messageService = require("../Services/MessageService");
 const messagesSchema = require("../Schemas/MessageSchemas");
+const repliesSchema = require("../Schemas/ReplySchemas");
 const webTokenUtil = require("../Util/JWT");
 const _ = require("lodash");
 
@@ -46,4 +47,17 @@ router.delete("/:messageId", middleWares.checkToken(), async (req, res) => {
       ? res.status(200).send({ Message: "Message Deleted successfully" })
       : res.status(400).send({ Message: "Failed to delete message" });
 });
+
+
+router.get(
+   "/:messageId/reply",
+   middleWares.checkToken(),
+   middleWares.validateQuerySchema(repliesSchema.repliesFindSchema),
+   async (req, res) => {
+      const data = await messageService.getReplies(req.query, req.params.messageId);
+      return !_.isEmpty(data)
+         ? res.status(200).send({ data, Message: "Replies found" })
+         : res.status(400).send({ Message: "Failed to retrieve replies" });
+   }
+);
 module.exports = router;

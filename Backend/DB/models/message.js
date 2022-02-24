@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
             name: "ToUserId"
          }
       });
+      Message.hasMany(models.Reply);
     }
   }
   Message.init(
