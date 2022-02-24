@@ -10,3 +10,8 @@ module.exports.messagesCreateSchema = Joi.object({
    content: Joi.string().max(200).required(),
    toId: Joi.number().required(),
 });
+
+module.exports.messagesEditSchema = Joi.object({
+   content: Joi.string().max(200).required(),
+   messageId: Joi.number().required(),
+});

@@ -37,3 +37,15 @@ module.exports.createMessage = async (fromId, messageInfo) => {
       return false;
    }
 };
+module.exports.editMessage = async (fromId, messageInfo) => {
+   try {
+      await db.Message.update(
+         { content: messageInfo.content },
+         { where: { id: messageInfo.messageId, FromUserId: fromId } }
+      );
+      return true;
+   } catch (err) {
+      console.error("Failed to edit message");
+      return false;
+   }
+};

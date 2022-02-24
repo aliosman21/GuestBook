@@ -7,3 +7,7 @@ module.exports.getMessages = async (queryInfo) => {
 module.exports.addMessage = async (fromId, messageInfo) => {
    return await messageRepository.createMessage(fromId, messageInfo);
 };
+
+module.exports.editMessage = async (fromId, messageInfo) => {
+   return await messageRepository.editMessage(fromId, messageInfo);
+};
