@@ -5,3 +5,8 @@ module.exports.messagesFindSchema = Joi.object({
    offset: Joi.string().regex(/^\d+$/).required(),
    id: Joi.string().regex(/^\d+$/).required(),
 });
+
+module.exports.messagesCreateSchema = Joi.object({
+   content: Joi.string().max(200).required(),
+   toId: Joi.number().required(),
+});

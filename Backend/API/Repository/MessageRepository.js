@@ -23,3 +23,17 @@ module.exports.findMessages = async (queryInfo) => {
       return [];
    }
 };
+
+module.exports.createMessage = async (fromId, messageInfo) => {
+   try {
+      await db.Message.create({
+         content: messageInfo.content,
+         FromUserId: fromId,
+         ToUserId: messageInfo.toId,
+      });
+      return true;
+   } catch (err) {
+      console.error("Failed to create message");
+      return false;
+   }
+};
