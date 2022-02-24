@@ -6,7 +6,7 @@ module.exports.getUserByEmail = async ({email}) => {
          where: {
             email: email,
          },
-         attributes: ["id"],
+         attributes: ["id", "email", "password"],
       });
       return user ? user : null;
    } catch (err) {

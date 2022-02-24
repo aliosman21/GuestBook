@@ -11,3 +11,7 @@ module.exports.hashPassword = async (password) => {
 
     return hashedPassword;
 }
+
+module.exports.matchPassword = async (enteredPassword, oldPassword) => {
+   return await bcrypt.compare(enteredPassword, oldPassword);
+};
