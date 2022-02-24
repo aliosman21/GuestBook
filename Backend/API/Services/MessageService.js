@@ -11,3 +11,7 @@ module.exports.addMessage = async (fromId, messageInfo) => {
 module.exports.editMessage = async (fromId, messageInfo) => {
    return await messageRepository.editMessage(fromId, messageInfo);
 };
+
+module.exports.removeMessage = async (fromId, messageInfo) => {
+   return await messageRepository.deleteMessage(fromId, messageInfo);
+};

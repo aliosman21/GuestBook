@@ -42,4 +42,15 @@ router.put(
          : res.status(400).send({ Message: "Failed to edit message" });
    }
 );
+router.delete(
+   "/",
+   middleWares.checkToken(),
+   middleWares.validateBodySchema(messagesSchema.messagesDeleteSchema),
+   async (req, res) => {
+      const userData = webTokenUtil.getPropertiesFromToken(req.headers.authorization, "id");
+      return (await messageService.removeMessage(userData.id, req.body))
+         ? res.status(200).send({ Message: "Message Deleted successfully" })
+         : res.status(400).send({ Message: "Failed to delete message" });
+   }
+);
 module.exports = router;

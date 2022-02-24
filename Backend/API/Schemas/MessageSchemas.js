@@ -15,3 +15,6 @@ module.exports.messagesEditSchema = Joi.object({
    content: Joi.string().max(200).required(),
    messageId: Joi.number().required(),
 });
+module.exports.messagesDeleteSchema = Joi.object({
+   messageId: Joi.number().required()
+});

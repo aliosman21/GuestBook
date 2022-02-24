@@ -49,3 +49,14 @@ module.exports.editMessage = async (fromId, messageInfo) => {
       return false;
    }
 };
+module.exports.deleteMessage = async (fromId, messageInfo) => {
+   try {
+      await db.Message.destroy(
+         { where: { id: messageInfo.messageId, FromUserId: fromId } }
+      );
+      return true;
+   } catch (err) {
+      console.error("Failed to delete message");
+      return false;
+   }
+};
