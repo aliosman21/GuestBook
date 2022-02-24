@@ -5,13 +5,21 @@ const userService = require("../Services/UserService");
 const webTokenUtil = require("../Util/JWT");
 const _ = require("lodash");
 
-router.get("/", middleWares.checkToken(), async (req, res) => {
-   const userData = webTokenUtil.getPropertiesFromToken(req.headers.authorization, "id");
-   const data = await userService.getUsers(userData.id, req.query);
-  return !_.isEmpty(data)
-     ? res.status(200).send({ data, Message: "Users found" })
-     : res.status(400).send({ Message: "Failed to retrieve users" });
-});
+/**
+ * Find all users
+ */
+router.get(
+   "/",
+   middleWares.checkToken(),
+   middleWares.validateQuerySchema(userSchemas.usersFindSchema),
+   async (req, res) => {
+      const userData = webTokenUtil.getPropertiesFromToken(req.headers.authorization, "id");
+      const data = await userService.getUsers(userData.id, req.query);
+      return !_.isEmpty(data)
+         ? res.status(200).send({ data, Message: "Users found" })
+         : res.status(400).send({ Message: "Failed to retrieve users" });
+   }
+);
 
 router.post("/", middleWares.validateBodySchema(userSchemas.userCreateSchema), async (req, res) => {
    if (await userService.getUserByEmail(req.body))
