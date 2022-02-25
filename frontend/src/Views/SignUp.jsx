@@ -1,38 +1,40 @@
 import { useState, React } from "react";
 import { Form, Button, Col, Card } from "react-bootstrap";
-import { login } from "../API/API";
+import { createUser } from "../API/API";
 import { useNavigate } from "react-router-dom";
 import styles from "../Styles/SignIn.module.css";
-import { TokenSlice, AlertSlice } from "../Redux/TokenSlice";
-import { useDispatch } from "react-redux";
-
 
 export default function SignIn() {
    const [email, setEmail] = useState("");
    const [password, setPassword] = useState("");
-   const dispatch = useDispatch();
+   const [name, setName] = useState("");
    const navigate = useNavigate();
 
-   const handleLogin = async (event) => {
+   const handleRegister = async (event) => {
       event.preventDefault();
-      const data = await login({ email, password });
+      const data = await createUser({ name, email, password });
       if (data){
-         dispatch(TokenSlice.actions.setToken(data.token));
-         dispatch(TokenSlice.actions.setId(data.id));
-         navigate("/users");
-      } else {
-         dispatch(AlertSlice.actions.setAlertInfo({visible: true, message:"Failed to login"}));
+        navigate("/");
       }
    };
-   const goToRegister = async () => {
-      navigate("/register");
+   const goToLogin = async () => {
+      navigate("/");
    };
    return (
       <Card className={styles.middle} style={{ width: "30vw" }}>
          <Card.Body>
-            <Card.Title style={{ marginLeft: "40%" }}>Sign In</Card.Title>
+            <Card.Title style={{ marginLeft: "40%" }}>Sign Up</Card.Title>
             <Col>
                <Form>
+                  <Form.Group className="mb-3" controlId="formBasicName">
+                     <Form.Label>Name</Form.Label>
+                     <Form.Control
+                        type="name"
+                        placeholder="Enter Name"
+                        value={name}
+                        onChange={(evt) => setName(evt.target.value)}
+                     />
+                  </Form.Group>
                   <Form.Group className="mb-3" controlId="formBasicEmail">
                      <Form.Label>Email address</Form.Label>
                      <Form.Control
@@ -51,13 +53,13 @@ export default function SignIn() {
                         onChange={(evt) => setPassword(evt.target.value)}
                      />
                   </Form.Group>
-                  <div style={{ display: "flex", justifyContent: "space-between" }}>
-                     <Button variant="primary" type="submit" onClick={handleLogin}>
-                        login
-                     </Button>
-                     <Button variant="primary" type="submit" onClick={goToRegister}>
-                        Go to Register
-                     </Button>
+                  <div style={{display: "flex", justifyContent:"space-between"}}>
+                  <Button variant="primary" type="submit" onClick={handleRegister}>
+                     Register
+                  </Button>
+                  <Button variant="primary" type="submit" color="green" onClick={goToLogin}>
+                     Go to Login
+                  </Button>
                   </div>
                </Form>
             </Col>

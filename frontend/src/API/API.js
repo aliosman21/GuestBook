@@ -10,6 +10,14 @@ const login = async (credentials) => {
        console.error("Failed to login", e)
     }
 }
+const createUser = async (credentials) => {
+    try {
+        let response = await axios.post(`${serverURL}/user`, credentials);
+        return response.data
+      } catch(e){
+       console.error("Failed to register", e)
+    }
+}
 const getUsers = async (limit, offset) => {
    try {
       let response = await axios.get(`${serverURL}/user`, { params: { limit, offset} });
@@ -67,4 +75,13 @@ axios.interceptors.request.use(
    }
 );
 
-export { login, getUsers, getMessages, deleteMessage, sendMessage, editMessage, getReplies };
+export {
+   login,
+   getUsers,
+   getMessages,
+   deleteMessage,
+   sendMessage,
+   editMessage,
+   getReplies,
+   createUser,
+};

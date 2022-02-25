@@ -34,7 +34,6 @@ export default function List() {
   }, []);
   return (
      <Box sx={{ flexGrow: 1 }} style={{ paddingLeft: "1%", paddingRight: "1%" }}>
-        <h1>Users list</h1>
         <Grid
            container
            direction="row"
