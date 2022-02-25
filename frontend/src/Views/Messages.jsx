@@ -15,14 +15,14 @@ import { useNavigate } from "react-router-dom";
 export default function Messages() {
    const [messages, setMessages] = useState([]);
    const [count, setCount] = useState(0);
-   const [page, setPage] = useState(0);
+   const [page, setPage] = useState(1);
    const { state } = useLocation();
    const navigate = useNavigate();
    const userId = useSelector((state) => state.tokenStore.id);
 
    const paginate = async (event, value) => {
       setPage(value);
-      await findMessages(25, page === 0 ? page : page - 1);
+      await findMessages(25, value - 1);
    };
 
    const findMessages = async (limit=25, offset=0) => {
@@ -42,7 +42,7 @@ export default function Messages() {
 
    useEffect(() => {
       async function fetchData() {
-         await findMessages(25, page);
+         await findMessages(25, page - 1);
       }
       fetchData();
    },[]);

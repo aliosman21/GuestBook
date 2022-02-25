@@ -10,13 +10,13 @@ import { useNavigate } from "react-router-dom";
 export default function List() {
   const [users, setUsers] = useState([]);
   const [count, setCount] = useState(0);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const navigate = useNavigate();
 
 
   const paginate = async(event, value) => {
-    setPage(value);
-    await findUsers(25, page === 0 ? page : page - 1);
+     setPage(value);
+    await findUsers(25, value - 1);
   }
   const findUsers = async(limit, offset) => {
     const data = await getUsers(limit, offset);
@@ -28,7 +28,7 @@ export default function List() {
   }
   useEffect(() => {
      async function fetchData() {
-        await findUsers(25, page);
+        await findUsers(25, page - 1);
      }
      fetchData();
   }, []);

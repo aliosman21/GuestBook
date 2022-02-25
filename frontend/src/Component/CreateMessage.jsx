@@ -41,7 +41,7 @@ export default function CreateMessage(props) {
             <DialogContent>
                <Form.Group className="mb-3">
                   <Form.Control
-                     style={{ width: "40vw" }}
+                     style={{ width: "30vw" }}
                      as="textarea"
                      rows={7}
                      onChange={(evt) => setMessage(evt.target.value)}
