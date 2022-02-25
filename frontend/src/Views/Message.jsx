@@ -6,6 +6,7 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import { getReplies } from '../API/API';
+import CreateReply from "../Component/CreateReply";
 export default function Message() {
     const [replies, setReplies] = useState([]);
     const [count, setCount] = useState(0);
@@ -14,7 +15,7 @@ export default function Message() {
 
 const paginate = async (event, value) => {
    setPage(value);
-   await findReplies(25, page - 1);
+   await findReplies(25, page === 0 ? page : page - 1);
 };
 
     const findReplies = async (limit = 25, offset = 0) => {
@@ -23,10 +24,10 @@ const paginate = async (event, value) => {
        setReplies(data.rows);
     };
     useEffect(() => {
-        async function fetchData() {
-           await findReplies();
-        }
-        fetchData();
+       async function fetchData() {
+          await findReplies();
+       }
+       fetchData();
     }, []);
   return (
      <Box sx={{ flexGrow: 1 }} style={{ paddingLeft: "1%", paddingRight: "1%" }}>
@@ -56,6 +57,7 @@ const paginate = async (event, value) => {
                  <div style={{ marginLeft: "5%" }}>{state.content}</div>
                  <div style={{ marginLeft: "auto", marginRight: "2%", display: "flex" }}></div>
               </Paper>
+              <CreateReply message={state} refresh={findReplies} />
               {replies &&
                  replies.map((reply, index) => (
                     <Grid item key={index}>
@@ -79,7 +81,12 @@ const paginate = async (event, value) => {
            </Grid>
         </Grid>
         <div style={{ display: "flex", justifyContent: "center", marginTop: "5%" }}>
-           <Pagination count={Math.floor(count / 25)} page={page} onChange={paginate} />
+           <Pagination
+              color="primary"
+              count={Math.floor(count / 25)}
+              page={page}
+              onChange={paginate}
+           />
         </div>
      </Box>
   );

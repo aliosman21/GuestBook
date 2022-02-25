@@ -22,7 +22,7 @@ export default function Messages() {
 
    const paginate = async (event, value) => {
       setPage(value);
-      await findMessages(25, page - 1);
+      await findMessages(25, page === 0 ? page : page - 1);
    };
 
    const findMessages = async (limit=25, offset=0) => {
@@ -45,7 +45,7 @@ export default function Messages() {
          await findMessages(25, page);
       }
       fetchData();
-   }, []);
+   },[]);
    return (
       <Box sx={{ flexGrow: 1 }} style={{ paddingLeft: "1%", paddingRight: "1%" }}>
          <Grid
@@ -83,6 +83,7 @@ export default function Messages() {
                         <div style={{ marginLeft: "auto", marginRight: "2%", display: "flex" }}>
                            {userId === message.fromUser.id && (
                               <Button
+                                 style={{ marginRight: "1%" }}
                                  variant="contained"
                                  color="error"
                                  onClick={() => removeMessage(message)}>
@@ -92,7 +93,10 @@ export default function Messages() {
                            {userId === message.fromUser.id && (
                               <EditMessage user={state} message={message} refresh={findMessages} />
                            )}
-                           <Button variant="contained" onClick={() => viewMessage(message)}>
+                           <Button
+                              style={{ marginLeft: "1%" }}
+                              variant="contained"
+                              onClick={() => viewMessage(message)}>
                               Replies
                            </Button>
                         </div>
@@ -101,7 +105,12 @@ export default function Messages() {
                ))}
          </Grid>
          <div style={{ display: "flex", justifyContent: "center", marginTop: "5%" }}>
-            <Pagination count={Math.floor(count / 25)} page={page} onChange={paginate} />
+            <Pagination
+               color="primary"
+               count={Math.floor(count / 25)}
+               page={page}
+               onChange={paginate}
+            />
          </div>
       </Box>
    );

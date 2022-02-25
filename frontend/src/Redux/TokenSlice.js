@@ -13,6 +13,10 @@ export const TokenSlice = createSlice({
       setId: (state, data) => {
          state.id = data.payload;
       },
+      clearAll: (state) => {
+         state.id = 0;
+         state.token = "";
+      },
    },
 });
 export const AlertSlice = createSlice({

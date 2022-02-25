@@ -6,9 +6,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { store } from "./Redux/Store";
 import { Provider } from "react-redux";
 import Alert from "./Component/Alert";
+import Navbar from "./Component/NavBar"
 ReactDOM.render(
    <Provider store={store}>
       <Router>
+      <Navbar/>
          <GuestBookRouter />
       </Router>
       <Alert/>

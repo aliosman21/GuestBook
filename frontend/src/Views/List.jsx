@@ -16,7 +16,7 @@ export default function List() {
 
   const paginate = async(event, value) => {
     setPage(value);
-    await findUsers(25, page-1);
+    await findUsers(25, page === 0 ? page : page - 1);
   }
   const findUsers = async(limit, offset) => {
     const data = await getUsers(limit, offset);
@@ -26,11 +26,11 @@ export default function List() {
   const viewProfile = (user) => {
     navigate("/messages", { state: user });
   }
-  useEffect(async() => {
-    async function fetchData() {
-      await findUsers(25,page);
-    }
-    fetchData(); 
+  useEffect(() => {
+     async function fetchData() {
+        await findUsers(25, page);
+     }
+     fetchData();
   }, []);
   return (
      <Box sx={{ flexGrow: 1 }} style={{ paddingLeft: "1%", paddingRight: "1%" }}>
@@ -64,7 +64,12 @@ export default function List() {
               ))}
         </Grid>
         <div style={{ display: "flex", justifyContent: "center", marginTop: "5%" }}>
-           <Pagination count={Math.floor(count / 25)} page={page} onChange={paginate} />
+           <Pagination
+              color="primary"
+              count={Math.floor(count / 25)}
+              page={page}
+              onChange={paginate}
+           />
         </div>
      </Box>
   );

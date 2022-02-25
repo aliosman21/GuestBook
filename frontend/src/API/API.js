@@ -41,6 +41,7 @@ const sendMessage = async (userId, content) => {
       console.error("Failed to create messages", e);
    }
 };
+
 const editMessage = async (messageId, content) => {
    try {
       await axios.put(`${serverURL}/message/${messageId}`, { content });
@@ -64,6 +65,14 @@ const getReplies = async (limit, offset, id) => {
       console.error("Failed to get message replies", e);
    }
 };
+
+const sendReply = async (messageId, content) => {
+   try {
+      await axios.post(`${serverURL}/message/${messageId}/reply`, { content });
+   } catch (e) {
+      console.error("Failed to create reply", e);
+   }
+};
 axios.interceptors.request.use(
    (config) => {
       const state = store.getState();
@@ -84,4 +93,5 @@ export {
    editMessage,
    getReplies,
    createUser,
+   sendReply,
 };
