@@ -109,3 +109,5 @@ The user can create a message for any user
 The user can edit/delete his messages
 
 The user can reply to any message
+
+A short demo for the app can be found [here](https://www.youtube.com/watch?v=-s5Sr361ESw) 
