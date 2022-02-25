@@ -60,4 +60,16 @@ router.get(
          : res.status(400).send({ Message: "Failed to retrieve replies" });
    }
 );
+
+router.post(
+   "/:messageId/reply",
+   middleWares.checkToken(),
+   middleWares.validateBodySchema(repliesSchema.replyCreateSchema),
+   async (req, res) => {
+      const userData = webTokenUtil.getPropertiesFromToken(req.headers.authorization, "id");
+      return await messageService.addReply(req.params.messageId, { ...req.body, userId: userData.id })
+         ? res.status(200).send({ Message: "Reply added successfully" })
+         : res.status(400).send({ Message: "Failed to add replies" });
+   }
+);
 module.exports = router;

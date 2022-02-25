@@ -82,3 +82,18 @@ module.exports.findReplies = async (queryInfo, messageId) => {
       return [];
    }
 };
+
+
+module.exports.createReply = async (messageId, replyInfo) => {
+   try {
+      await db.Reply.create({
+         content: replyInfo.content,
+         UserId: replyInfo.userId,
+         MessageId: messageId,
+      });
+      return true;
+   } catch (err) {
+      console.error("Failed to create reply");
+      return false;
+   }
+};

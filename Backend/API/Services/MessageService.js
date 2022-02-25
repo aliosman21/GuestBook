@@ -19,3 +19,7 @@ module.exports.removeMessage = async (fromId, messageId) => {
 module.exports.getReplies = async (queryInfo, messageId) => {
    return await messageRepository.findReplies(queryInfo, messageId);
 };
+
+module.exports.addReply = async (messageId, replyInfo) => {
+   return await messageRepository.createReply(messageId, replyInfo);
+};
