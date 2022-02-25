@@ -6,10 +6,13 @@ import Pagination from "@mui/material/Pagination";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import { getUsers } from "../API/API";
+import { useNavigate } from "react-router-dom";
 export default function List() {
   const [users, setUsers] = useState([]);
   const [count, setCount] = useState(0);
   const [page, setPage] = useState(0);
+  const navigate = useNavigate();
+
 
   const paginate = async(event, value) => {
     setPage(value);
@@ -21,9 +24,7 @@ export default function List() {
     setUsers(data.rows);
   }
   const viewProfile = (user) => {
-    console.log('====================================');
-    console.log(user);
-    console.log('====================================');
+    navigate("/messages", { state: user });
   }
   useEffect(async() => {
     async function fetchData() {
@@ -49,12 +50,13 @@ export default function List() {
                        elevation={4}
                        style={{ display: "flex", alignItems: "center", height: "10vh" }}>
                        <Avatar
+                          title={user.name}
                           alt={user.name}
                           src={`https://avatars.dicebear.com/api/identicon/${user.avatar}.svg`}
                        />
                        <div style={{ marginLeft: "5%" }}>{user.name}</div>
-                       <div style={{ marginLeft: "auto", marginRight:"2%" }}>
-                          <Button variant="contained" href="#contained-buttons" onClick={() => viewProfile(user)}>
+                       <div style={{ marginLeft: "auto", marginRight: "2%" }}>
+                          <Button variant="contained" onClick={() => viewProfile(user)}>
                              Profile
                           </Button>
                        </div>

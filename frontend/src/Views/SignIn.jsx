@@ -3,7 +3,7 @@ import { Form, Button, Col, Card } from "react-bootstrap";
 import { login } from "../API/API";
 import { useNavigate } from "react-router-dom";
 import styles from "../Styles/SignIn.module.css";
-import { TokenSlice } from "../Redux/TokenSlice";
+import { TokenSlice, AlertSlice } from "../Redux/TokenSlice";
 import { useDispatch } from "react-redux";
 
 
@@ -16,8 +16,13 @@ export default function SignIn() {
    const handleLogin = async (event) => {
       event.preventDefault();
       const data = await login({ email, password });
-      dispatch(TokenSlice.actions.setToken(data.token));
-      navigate("/users");
+      if (data){
+         dispatch(TokenSlice.actions.setToken(data.token));
+         dispatch(TokenSlice.actions.setId(data.id));
+         navigate("/users");
+      } else {
+         dispatch(AlertSlice.actions.setAlertInfo({visible: true, message:"Failed to login"}));
+      }
    };
    return (
       <Card className={styles.middle} style={{ width: "30vw" }}>

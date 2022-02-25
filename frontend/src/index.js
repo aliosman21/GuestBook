@@ -5,11 +5,13 @@ import GuestBookRouter from "./Routes/GuestBookRouter";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { store } from "./Redux/Store";
 import { Provider } from "react-redux";
+import Alert from "./Component/Alert";
 ReactDOM.render(
    <Provider store={store}>
       <Router>
          <GuestBookRouter />
       </Router>
+      <Alert/>
    </Provider>,
    document.getElementById("root")
 );
