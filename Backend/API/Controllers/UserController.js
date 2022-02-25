@@ -34,11 +34,11 @@ router.post(
       const user = await userService.getUserByEmail(req.body);
       if (!user) return res.status(404).send({ Message: "User not found" });
 
-      if (await userService.login(req.body, user)){
-        const token = webTokenUtil.getJwtToken(user);
-        return res.status(200).send({ token, Message: "Verified successfully" })
+      if (await userService.login(req.body, user)) {
+         const token = webTokenUtil.getJwtToken(user);
+         return res.status(200).send({ token, id: user.id, Message: "Verified successfully" });
       }
-        return res.status(500).send({ Message: "Server error" });
+      return res.status(500).send({ Message: "Server error" });
    }
 );
 

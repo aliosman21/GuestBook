@@ -24,7 +24,7 @@ module.exports = {
        });
     }
     const replies = [];
-    for (let i = 0; i < 200; i++) {
+    for (let i = 0; i < 4000; i++) {
        replies.push({
           content: faker.lorem.words(8),
           UserId: Math.floor(Math.random() * 100 + 1),
